@@ -9,16 +9,19 @@
 using namespace std;
 
 class Player{
-    Stack * mazoCartas;
     
     public: 
         string name;
         Stack * loot;
+        Stack * mazoCartas;
 
         Player(string nombre);
+        Player();
+        
         ~Player();
         unsigned int stacksize();
         unsigned int cardesTaken();
+        Card play();
 };
 
 #endif

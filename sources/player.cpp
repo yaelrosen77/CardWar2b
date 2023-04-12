@@ -6,6 +6,12 @@ Player :: Player(string nombre){
     loot = new Stack(CAPACITY);
 }
 
+Player :: Player(){
+    name = "";
+    mazoCartas = NULL;
+    loot = NULL;
+}
+
 Player ::~Player(){
     delete mazoCartas;
     delete loot;
@@ -15,6 +21,12 @@ unsigned int Player :: stacksize(){
     return mazoCartas->CurSize;
 } 
 
+/// @brief 
+/// @return 
 unsigned int Player:: cardesTaken(){
     return loot->CurSize;
+}
+
+Card Player :: play(){
+    return mazoCartas->pop;
 }

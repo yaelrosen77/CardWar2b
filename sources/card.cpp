@@ -1,14 +1,12 @@
 #include "card.hpp"
 
 Card :: Card(){
-    val = Nill;
-    color ="";
+    val = 0;
     suit = "";
 }
 
-Card :: Card(CardVal v, string colr, string Suit){
+Card :: Card(int v, string Suit){
     val = v;
-    color = colr;
     suit = Suit;
 }
 

@@ -7,7 +7,6 @@ using namespace std;
 
 
 enum CardVal {
-    Nill = 0,
     Ace = 1,
     Two, 
     Three,
@@ -27,12 +26,11 @@ enum CardVal {
 class Card{
 
     public: 
-        CardVal val;
-        string color;
+        int val;
         string suit;
 
         Card();
-        Card(CardVal v, string colr, string Suit);
+        Card(int v, string Suit);
         int compare(Card otro);
 };
 
