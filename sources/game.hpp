@@ -2,18 +2,23 @@
 #define GAME
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
-#include "player.hpp"
+#include <random> 
+#include <algorithm> 
 using namespace std;
+#include "player.hpp"
+using namespace ariel;
 
-class Game{
+namespace ariel {
+    class Game{
     public: 
         Player p1;
         Player p2;
-        Stack *discard_pile;
+        vector<Card> deck;
+        vector <string> log;
+        int NumOfTurns;
 
-        Game(Player player1, Player player2);
-        
+        Game(Player& player1, Player& player2);
+
         void playTurn();
         void printLastTurn();
         void playAll();
@@ -22,13 +27,11 @@ class Game{
         void printStats();
 
     private:
-        void suffle(); 
         void generateCards();
-        void dealCards(int Amount);
-        int getNdx(int* ARR, int MaxNdx);
-        void playAll();
-        // void war();
-};
+        void dealCards(int mnt);
+        void war();
+        string getString(int val);
+    };
+}
 
 #endif
-

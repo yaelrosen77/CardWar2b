@@ -1,32 +1,23 @@
 #include "player.hpp"
 
+using namespace ariel;
+
 Player :: Player(string nombre){
     name = nombre;
-    mazoCartas = new Stack(HALF_DECK);
-    loot = new Stack(CAPACITY);
 }
 
-Player :: Player(){
-    name = "";
-    mazoCartas = NULL;
-    loot = NULL;
-}
-
-Player ::~Player(){
-    delete mazoCartas;
-    delete loot;
-}
-
-unsigned int Player :: stacksize(){
-    return mazoCartas->CurSize;
+int Player :: stacksize(){
+    return mazoCartas.size();
 } 
 
 /// @brief 
 /// @return 
-unsigned int Player:: cardesTaken(){
-    return loot->CurSize;
+int Player:: cardesTaken(){
+    return loot.size();
 }
 
 Card Player :: play(){
-    return mazoCartas->pop;
+    Card tmp = mazoCartas.back();
+    mazoCartas.pop_back();
+    return tmp;
 }

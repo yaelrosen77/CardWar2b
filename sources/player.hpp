@@ -1,27 +1,26 @@
 #ifndef PLAYER
 #define PLAYER
-#include "stack.hpp"
 #include <iostream>
+#include "card.hpp"
+#include <vector>
 #include <cstdlib>
 #define HALF_DECK 26
 #define CAPACITY 52
 
 using namespace std;
 
-class Player{
+namespace ariel{
     
+class Player{
     public: 
         string name;
-        Stack * loot;
-        Stack * mazoCartas;
+        vector<Card> loot;
+        vector<Card> mazoCartas;
 
         Player(string nombre);
-        Player();
-        
-        ~Player();
-        unsigned int stacksize();
-        unsigned int cardesTaken();
+        int stacksize();
+        int cardesTaken();
         Card play();
 };
-
+}
 #endif
