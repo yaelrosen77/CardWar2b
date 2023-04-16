@@ -48,17 +48,49 @@ void Game:: dealCards(int mnt){
     i++;
     }
 }
-// Alice played 6 of Hearts Bob played 6 of Spades. Draw. Alice played 10 of Clubs Bob played 10 of Diamonds. draw. Alice played Jack of Clubs Bob played King of Diamonds. Bob wins.
 
 void Game :: playTurn(){
     if (p1.mazoCartas.size()== 0 || p2.mazoCartas.size()==0){
+        random_device rd;
+        mt19937 g(rd());
         if (deck.size()==0){
             return;
         }
-        else{
-            dealCards(deck.size());
+        if (deck.size()==2){
+            p1.loot.push_back(deck.back());
+            deck.pop_back();
+            p2.loot.push_back(deck.back());
+            deck.pop_back();
+            return;
         }
-    }    
+        if (deck.size()==4){
+            if ((deck.at(0).compare(deck.at(2))==0) && (deck.at(3).compare(deck.at(2))==0)){
+                p1.loot.push_back(deck.back());
+                deck.pop_back();
+                p2.loot.push_back(deck.back());
+                deck.pop_back();
+                p1.loot.push_back(deck.back());
+                deck.pop_back();
+                p2.loot.push_back(deck.back());
+                deck.pop_back();
+                return;
+            }
+
+            else{
+                shuffle(deck.begin(), deck.end(), g);
+                dealCards(4);
+                playTurn();
+                return;
+            }
+        }
+        else{
+            shuffle(deck.begin(), deck.end(), g);
+            dealCards(deck.size());
+            playTurn();
+            return;
+        }
+    }
+           
     static string trick = "";
     Card pl1 = p1.play();
     trick.append(p1.name + " played " + getString(pl1.val) + " of " + pl1.suit);
@@ -93,12 +125,22 @@ void Game :: playTurn(){
 
     else{
         trick.append("Draw. ");
+        if (p1.stacksize() >0 && p2.stacksize() > 0){
+            pl1 = p1.play();
+            deck.push_back(pl1);
+            pl2 = p2.play();
+            deck.push_back(pl2);
+        }
         playTurn();
     }
 }
 
 void Game:: printLog(){
     return;
+}
+
+void Game :: printWiner(){
+    
 }
 
 void Game:: printLastTurn(){
@@ -110,7 +152,10 @@ void Game:: printStats(){
 }
 
 void Game:: playAll(){
-    return;
+    while (p1.stacksize()!=0 && p2.stacksize()!=0){
+        playTurn();
+        printLastTurn();
+    }
 }
 
 string Game:: getString(int val){

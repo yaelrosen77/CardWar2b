@@ -29,7 +29,6 @@ namespace ariel {
     private:
         void generateCards();
         void dealCards(int mnt);
-        void war();
         string getString(int val);
     };
 }
