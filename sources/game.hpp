@@ -11,8 +11,8 @@ using namespace ariel;
 namespace ariel {
     class Game{
     public: 
-        Player p1;
-        Player p2;
+        Player& p1;
+        Player& p2;
         vector<Card> deck;
         vector <string> log;
         int NumOfTurns;

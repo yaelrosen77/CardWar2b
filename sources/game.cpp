@@ -51,48 +51,58 @@ void Game:: dealCards(int mnt){
 // Alice played 6 of Hearts Bob played 6 of Spades. Draw. Alice played 10 of Clubs Bob played 10 of Diamonds. draw. Alice played Jack of Clubs Bob played King of Diamonds. Bob wins.
 
 void Game :: playTurn(){
-    if (p1.mazoCartas.size()== 0 || p2.mazoCartas.size()==0)
-        return;
+    if (p1.mazoCartas.size()== 0 || p2.mazoCartas.size()==0){
+        if (deck.size()==0){
+            return;
+        }
+        else{
+            dealCards(deck.size());
+        }
+    }    
+    static string trick = "";
     Card pl1 = p1.play();
-    cout<<"check point 1"<<endl;
-    log.at(NumOfTurns).assign(p1.name + "played " + getString(pl1.val) + "of " + pl1.suit);
+    trick.append(p1.name + " played " + getString(pl1.val) + " of " + pl1.suit);
     deck.push_back(pl1);
-    cout<<"check point 2"<<endl;
+
     Card pl2 = p2.play();
-    cout<<"check point 3"<<endl;
-    log[NumOfTurns].append(p2.name + "played " + getString(pl2.val) + "of " + pl2.suit + ". ");
-    cout<<"check point 4"<<endl;
+    trick.append(" " + p2.name + " played " + getString(pl2.val) + " of " + pl2.suit + ". ");
     deck.push_back(pl2);
-    cout<<"check point 5"<<endl;
+
     int res = pl1.compare(pl2);
-    cout<<"check point 6"<<endl;
     if (res == -1){
         while (deck.size()>0){
             p2.loot.push_back(deck.back());
             deck.pop_back();
         }
-        log[NumOfTurns].append(p2.name + " wins.");
+        trick.append(p2.name + " wins.");
+        log.insert(log.begin()+NumOfTurns, trick);
         NumOfTurns++;
+        trick = "";
     }
 
-    else if (res==1){
+    else if (res ==1){
         while (deck.size()>0){
             p1.loot.push_back(deck.back());
             deck.pop_back();
         }
-        log[NumOfTurns].append(p1.name + " wins.");
+        trick.append(p1.name + " wins.");
+        log.insert(log.begin()+NumOfTurns, trick);
         NumOfTurns++;
+        trick = "";
     }
 
     else{
-        log[NumOfTurns].append("Draw. ");
+        trick.append("Draw. ");
         playTurn();
     }
-    cout<<log[0]<<endl;
 }
 
 void Game:: printLog(){
     return;
+}
+
+void Game:: printLastTurn(){
+    cout<<log.back()<<endl;
 }
 
 void Game:: printStats(){
