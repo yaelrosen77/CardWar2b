@@ -5,6 +5,9 @@ Game :: Game(Player& player1, Player& player2):p1(player1),p2(player2){
     generateCards();
     dealCards(CAPACITY);
     NumOfTurns =0;
+    p1.Numofwins =0;
+    p2.Numofwins =0;
+    NumOfDraws =0;
 } 
 
 void Game:: generateCards(){
@@ -50,11 +53,14 @@ void Game:: dealCards(int mnt){
 }
 
 void Game :: playTurn(){
-    if (p1.mazoCartas.size()== 0 || p2.mazoCartas.size()==0){
+    if (&p1 == &p2){
+        throw invalid_argument("Player cannot play with himself! \n");
+    }
+    if (p1.stacksize()== 0 || p2.stacksize()==0){
         random_device rd;
         mt19937 g(rd());
         if (deck.size()==0){
-            return;
+            throw runtime_error("Game over");
         }
         if (deck.size()==2){
             p1.loot.push_back(deck.back());
@@ -106,6 +112,7 @@ void Game :: playTurn(){
             p2.loot.push_back(deck.back());
             deck.pop_back();
         }
+        p2.Numofwins++;
         trick.append(p2.name + " wins.");
         log.insert(log.begin()+NumOfTurns, trick);
         NumOfTurns++;
@@ -117,6 +124,7 @@ void Game :: playTurn(){
             p1.loot.push_back(deck.back());
             deck.pop_back();
         }
+        p1.Numofwins++;
         trick.append(p1.name + " wins.");
         log.insert(log.begin()+NumOfTurns, trick);
         NumOfTurns++;
@@ -125,6 +133,7 @@ void Game :: playTurn(){
 
     else{
         trick.append("Draw. ");
+        NumOfDraws++;
         if (p1.stacksize() >0 && p2.stacksize() > 0){
             pl1 = p1.play();
             deck.push_back(pl1);
@@ -136,11 +145,23 @@ void Game :: playTurn(){
 }
 
 void Game:: printLog(){
-    return;
+    unsigned int i = 0;
+    string res = "";
+    while (i<NumOfTurns){
+        res = log[i];
+        cout<<res<<endl;
+        i++;
+    }
 }
 
 void Game :: printWiner(){
-    
+    if (p1.cardesTaken()>p2.cardesTaken())
+        cout<<p1.name + " "<<endl;
+    else if (p1.cardesTaken() < p2.cardesTaken())
+        cout<<p2.name + " "<<endl; 
+    else {
+        cout<<"Draw! "<<endl;
+    }
 }
 
 void Game:: printLastTurn(){
@@ -148,13 +169,17 @@ void Game:: printLastTurn(){
 }
 
 void Game:: printStats(){
-    return;
+    cout<<"**************************STATS*****************************"<<endl;
+    cout<<p1.name + " won " + to_string(p1.Numofwins) + " times with a win rate of " + to_string((double)p1.Numofwins/(double)NumOfTurns) + 
+    " and has " + to_string(p1.cardesTaken()) + " cards taken."<<endl;
+    cout<<p2.name + " won " + to_string(p2.Numofwins) + " times with a win rate of " + to_string((double)p2.Numofwins/(double)NumOfTurns) +
+    " and has " + to_string(p2.cardesTaken()) + " cards taken."<<endl;
+    cout<<"Total draws is " + to_string(NumOfDraws) + " and draw rate is " + to_string((double)NumOfDraws/(double)NumOfTurns)<<endl;
 }
 
 void Game:: playAll(){
     while (p1.stacksize()!=0 && p2.stacksize()!=0){
         playTurn();
-        printLastTurn();
     }
 }
 

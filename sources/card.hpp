@@ -12,7 +12,7 @@ class Card{
         int val;
         string suit;
 
-        Card(int v, string Suit);
+        Card(int vali, string Suit);
         int compare(Card otro);
 };
 }

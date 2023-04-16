@@ -4,8 +4,7 @@
 #include "card.hpp"
 #include <vector>
 #include <cstdlib>
-#define HALF_DECK 26
-#define CAPACITY 52
+constexpr int CAPACITY = 52;
 
 using namespace std;
 
@@ -16,6 +15,7 @@ class Player{
         string name;
         vector<Card> loot;
         vector<Card> mazoCartas;
+        int Numofwins;
 
         Player(string nombre);
         int stacksize();
