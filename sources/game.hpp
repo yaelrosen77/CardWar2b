@@ -2,8 +2,8 @@
 #define GAME
 #include <iostream>
 #include <cstdlib>
-#include <random> 
-#include <algorithm> 
+#include <random>           //for random_device
+#include <algorithm>        //for suffle 
 using namespace std;
 #include "player.hpp"
 using namespace ariel;

@@ -21,6 +21,7 @@ class Player{
         int stacksize();
         int cardesTaken();
         Card play();
+        
 };
 }
 #endif
